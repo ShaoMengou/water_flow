@@ -1,6 +1,6 @@
 # water flow
 
-本项目为使用 godot 引擎与计算机图形学基础实现的模拟河流环境，主要用来给另一项目[使用神经网络对虚拟水体进行水位预测](https://github.com/ShaoMengou/cnn_height_predict)生成测试数据。
+本项目为使用 godot 引擎与计算机图形学基础实现的模拟河流环境，主要用来给另一项目[使用深度神经网络对虚拟水体进行水位预测](https://github.com/ShaoMengou/cnn_height_predict)生成测试数据。
 
 本项目内含以下内容：
 
