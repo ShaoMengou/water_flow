@@ -1,0 +1,73 @@
+[gd_scene load_steps=13 format=3 uid="uid://chgu80387dsd"]
+
+[ext_resource type="Script" path="res://water_flow.gd" id="1_4pqxt"]
+[ext_resource type="Shader" path="res://water.gdshader" id="2_5ub6m"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_grasm"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mfudv"]
+resource_local_to_scene = true
+seamless = true
+noise = SubResource("FastNoiseLite_grasm")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2dbbk"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4lfpc"]
+resource_local_to_scene = true
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_2dbbk")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4k4hf"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_5ub6m")
+shader_parameter/height_scale = 0.25
+shader_parameter/noise = SubResource("NoiseTexture2D_mfudv")
+shader_parameter/normalmap = SubResource("NoiseTexture2D_4lfpc")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lbw46"]
+material = SubResource("ShaderMaterial_4k4hf")
+size = Vector2(64, 32)
+subdivide_width = 256
+subdivide_depth = 128
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ys1e3"]
+sky_top_color = Color(0.356863, 0.47451, 0.690196, 1)
+sky_horizon_color = Color(0.6, 0.611765, 0.627451, 1)
+sky_energy_multiplier = 1.5
+sun_angle_max = 105.55
+sun_curve = 0.0699775
+
+[sub_resource type="Sky" id="Sky_3dafi"]
+sky_material = SubResource("ProceduralSkyMaterial_ys1e3")
+
+[sub_resource type="Environment" id="Environment_ncrut"]
+background_mode = 2
+sky = SubResource("Sky_3dafi")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nqk42"]
+albedo_color = Color(0.580392, 0.811765, 0.466667, 1)
+
+[node name="WaterFlow" type="Node3D"]
+script = ExtResource("1_4pqxt")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-1, 1.81762e-08, -8.55124e-08, 0, 0.978148, 0.207912, 8.74228e-08, 0.207912, -0.978148, 0, 0, 0)
+light_color = Color(1, 0.913725, 0.717647, 1)
+light_energy = 4.0
+shadow_enabled = true
+
+[node name="Water" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_lbw46")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 4.37114e-08, -7.57103e-08, 0, 0.866025, 0.5, 8.74228e-08, 0.5, -0.866025, 0, 6, 4)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ncrut")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15.7229)
+material_override = SubResource("StandardMaterial3D_nqk42")
+size = Vector3(56.2121, 21.4301, 1)
